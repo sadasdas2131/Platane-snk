@@ -1,9 +1,9 @@
-name: Generate snake animation
+name: Generate Snake Contribution Graph
 
 on:
   schedule:
-    - cron: "0 0 * * *"  # Запускать каждый день в 00:00 UTC
-  workflow_dispatch:
+    - cron: "0 0 * * *"  # каждый день в 00:00 UTC
+  workflow_dispatch:     # можно запустить вручную
 
 jobs:
   generate:
@@ -11,19 +11,20 @@ jobs:
     steps:
       - uses: platane/snk@v3
         with:
-          github_user_name: ${{ github.repository_owner }}
-          svg_out_path: dist/github-contribution-grid-snake.svg
+          github_user_name: sadasdas2131
+          svg_out_path: dist/snake.svg
 
       - uses: actions/checkout@v4
-        with:
-          ref: main
 
-      - name: Commit & Push
+      - name: Save SVG to repo
         run: |
           mkdir -p assets
-          cp dist/github-contribution-grid-snake.svg assets/
+          cp dist/snake.svg assets/github-contribution-grid-snake.svg
+
+      - name: Commit and push
+        run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add assets/github-contribution-grid-snake.svg
-          git commit -m "Update snake animation" || echo "No changes to commit"
+          git commit -m "Update snake animation" || echo "No changes"
           git push
